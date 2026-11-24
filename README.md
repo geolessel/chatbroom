@@ -12,14 +12,14 @@ rooms, and no database:
 
 This app is also a small, complete example of **Phoenix Channels used
 directly, without LiveView**: a plain socket, a channel, Presence, and a
-framework-free TypeScript client with no npm dependencies.
+framework-free JavaScript client with no npm dependencies.
 
 ## How it works
 
 | Step | Where |
 | --- | --- |
 | The controller picks a random user name, signs it with `Phoenix.Token`, and renders static markup with the room, user, and token in `data-` attributes. | `lib/chatbroom_web/controllers/room_controller.ex`, `room_html/show.html.heex` |
-| The client connects to `/socket` with the token. The socket verifies the token and assigns the user, so a client cannot choose its own name. | `assets/js/chat.ts`, `lib/chatbroom_web/channels/user_socket.ex` |
+| The client connects to `/socket` with the token. The socket verifies the token and assigns the user, so a client cannot choose its own name. | `assets/js/chat.js`, `lib/chatbroom_web/channels/user_socket.ex` |
 | The client joins the `room:<name>` topic. Any topic is valid; a room exists while someone is in it. | `lib/chatbroom_web/channels/room_channel.ex` |
 | On join, the channel pushes the current `presence_state` and tracks the user. The client's `Presence` instance keeps the user list and shows join/leave notices. | `room_channel.ex`, `lib/chatbroom_web/channels/presence.ex` |
 | `new_message` is broadcast to the topic with the user name from the socket, never from the payload. | `room_channel.ex` |

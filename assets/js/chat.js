@@ -1,16 +1,14 @@
 import {Presence, Socket} from "phoenix"
 
-type ChatMessage = {user: string; message: string}
-
-export function startChat(root: HTMLElement): void {
+export function startChat(root) {
   const {room, token} = root.dataset
-  const messages = root.querySelector<HTMLElement>("#messages")!
-  const form = root.querySelector<HTMLFormElement>("#message-form")!
-  const input = root.querySelector<HTMLInputElement>("#message-input")!
-  const showUsers = root.querySelector<HTMLInputElement>("#show-user-list")!
-  const userList = root.querySelector<HTMLElement>("#user-list")!
-  const users = root.querySelector<HTMLElement>("#users")!
-  const userCount = root.querySelector<HTMLElement>("#user-count")!
+  const messages = root.querySelector("#messages")
+  const form = root.querySelector("#message-form")
+  const input = root.querySelector("#message-input")
+  const showUsers = root.querySelector("#show-user-list")
+  const userList = root.querySelector("#user-list")
+  const users = root.querySelector("#users")
+  const userCount = root.querySelector("#user-count")
 
   const socket = new Socket("/socket", {params: {token}})
   socket.connect()
@@ -23,22 +21,22 @@ export function startChat(root: HTMLElement): void {
   // for every person who was there before them.
   let announce = false
 
-  presence.onJoin((name: string, current: unknown) => {
+  presence.onJoin((name, current) => {
     if (announce && !current) appendNotice(messages, `${name} joined`)
   })
 
-  presence.onLeave((name: string, current: {metas: unknown[]}) => {
+  presence.onLeave((name, current) => {
     if (announce && current.metas.length === 0) appendNotice(messages, `${name} left`)
   })
 
   presence.onSync(() => {
     announce = true
-    const names: string[] = presence.list((name: string) => name)
+    const names = presence.list(name => name)
     userCount.textContent = String(names.length)
     users.replaceChildren(...names.map(name => element("span", {}, name)))
   })
 
-  channel.on("new_message", ({user, message}: ChatMessage) => {
+  channel.on("new_message", ({user, message}) => {
     appendLine(messages, element("div", {class: "flex"},
       element("strong", {class: "pr-2"}, `${user}:`),
       element("div", {}, message),
@@ -47,7 +45,7 @@ export function startChat(root: HTMLElement): void {
 
   channel.join()
     .receive("ok", () => console.log(`Joined ${room}`))
-    .receive("error", (resp: unknown) => console.log("Unable to join", resp))
+    .receive("error", resp => console.log("Unable to join", resp))
 
   form.addEventListener("submit", event => {
     event.preventDefault()
@@ -62,11 +60,11 @@ export function startChat(root: HTMLElement): void {
   })
 }
 
-function appendNotice(messages: HTMLElement, text: string): void {
+function appendNotice(messages, text) {
   appendLine(messages, element("div", {class: "italic text-[#6c757d]"}, text))
 }
 
-function appendLine(messages: HTMLElement, line: HTMLElement): void {
+function appendLine(messages, line) {
   const atBottom = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 20
   messages.append(line)
   if (atBottom) messages.scrollTop = messages.scrollHeight
@@ -74,7 +72,7 @@ function appendLine(messages: HTMLElement, line: HTMLElement): void {
 
 // Text goes in through text nodes, never innerHTML, because messages
 // and room names come from other users.
-function element(tag: string, attrs: Record<string, string>, ...children: (Node | string)[]): HTMLElement {
+function element(tag, attrs, ...children) {
   const el = document.createElement(tag)
   for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value)
   el.append(...children)
