@@ -24,6 +24,7 @@ defmodule ChatbroomWeb.RoomChannel do
 
       message ->
         broadcast!(socket, "new_message", %{user: socket.assigns.user, message: message})
+        :telemetry.execute([:chatbroom, :message, :sent], %{count: 1})
         {:reply, :ok, socket}
     end
   end

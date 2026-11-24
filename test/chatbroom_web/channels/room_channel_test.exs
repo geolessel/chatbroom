@@ -46,4 +46,31 @@ defmodule ChatbroomWeb.RoomChannelTest do
     assert_reply ref, :error, %{reason: "empty message"}
     refute_broadcast "new_message", _
   end
+
+  describe "message telemetry" do
+    setup do
+      ref = :telemetry_test.attach_event_handlers(self(), [[:chatbroom, :message, :sent]])
+      on_exit(fn -> :telemetry.detach(ref) end)
+      %{ref: ref}
+    end
+
+    test "a sent message emits a sent event", %{socket: socket, ref: ref} do
+      push(socket, "new_message", %{"message" => "hello"}) |> assert_reply(:ok)
+
+      assert_received {[:chatbroom, :message, :sent], ^ref, %{count: 1}, %{}}
+    end
+
+    test "a refused message emits no event", %{socket: socket, ref: ref} do
+      push(socket, "new_message", %{"message" => ""}) |> assert_reply(:error)
+
+      refute_received {[:chatbroom, :message, :sent], ^ref, _, _}
+    end
+
+    test "LiveDashboard metrics count sent messages" do
+      assert Enum.any?(
+               ChatbroomWeb.Telemetry.metrics(),
+               &(&1.event_name == [:chatbroom, :message, :sent])
+             )
+    end
+  end
 end

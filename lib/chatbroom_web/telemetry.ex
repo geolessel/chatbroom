@@ -52,6 +52,9 @@ defmodule ChatbroomWeb.Telemetry do
         unit: {:native, :millisecond}
       ),
 
+      # Chatbroom Metrics
+      counter("chatbroom.message.sent.count", description: "Chat messages sent"),
+
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),
