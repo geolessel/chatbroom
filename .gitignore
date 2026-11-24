@@ -38,3 +38,6 @@ npm-debug.log
 
 # macOS Finder metadata.
 .DS_Store
+
+# Local environment (e.g. MIX_ESBUILD_PATH) loaded by direnv.
+.envrc
