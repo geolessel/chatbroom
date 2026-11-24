@@ -14,6 +14,11 @@ defmodule ChatbroomWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # kamal-proxy polls this before it sends traffic to a new container.
+  scope "/", ChatbroomWeb do
+    get "/up", HealthController, :show
+  end
+
   scope "/", ChatbroomWeb do
     pipe_through :browser
 
