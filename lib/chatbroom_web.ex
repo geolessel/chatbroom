@@ -84,11 +84,8 @@ defmodule ChatbroomWeb do
 
       # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components
-      import ChatbroomWeb.CoreComponents
 
       # Common modules used in templates
-      alias Phoenix.LiveView.JS
       alias ChatbroomWeb.Layouts
 
       # Routes generation with the ~p sigil
