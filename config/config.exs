@@ -26,9 +26,13 @@ config :phoenix_live_view,
   # the attribute set on all root tags. Used for Phoenix.LiveView.ColocatedCSS.
   root_tag_attribute: "phx-r"
 
+# Set MIX_ESBUILD_PATH to use a separately installed esbuild where the
+# automatic download is not possible.
+config :esbuild, path: System.get_env("MIX_ESBUILD_PATH")
+
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.25.4",
+  version: "0.28.2",
   chatbroom: [
     args:
       ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
