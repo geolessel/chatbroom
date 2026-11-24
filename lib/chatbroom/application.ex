@@ -11,8 +11,7 @@ defmodule Chatbroom.Application do
       ChatbroomWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:chatbroom, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Chatbroom.PubSub},
-      # Start a worker by calling: Chatbroom.Worker.start_link(arg)
-      # {Chatbroom.Worker, arg},
+      ChatbroomWeb.Presence,
       # Start to serve requests, typically the last entry
       ChatbroomWeb.Endpoint
     ]
