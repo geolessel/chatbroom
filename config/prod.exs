@@ -14,7 +14,8 @@ config :chatbroom, ChatbroomWeb.Endpoint,
   force_ssl: [
     rewrite_on: [:x_forwarded_proto],
     exclude: [
-      # paths: ["/health"],
+      # kamal-proxy calls the health check over plain HTTP inside the server.
+      paths: ["/up"],
       hosts: ["localhost", "127.0.0.1"]
     ]
   ]

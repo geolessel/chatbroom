@@ -59,6 +59,9 @@ if config_env() == :prod do
 
   config :chatbroom, ChatbroomWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
+    # The default origin check allows only `host`, which would block the
+    # chat socket for visitors who arrive on the www name.
+    check_origin: ["https://#{host}", "https://www.#{host}"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
