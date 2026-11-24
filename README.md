@@ -67,3 +67,7 @@ mix test         # or `mix precommit` to also check warnings and formatting
 This is a rewrite of a 2018 Phoenix 1.3 app whose chat UI was a React
 component. The rewrite keeps the same behaviour and look on current
 Elixir and Phoenix.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
