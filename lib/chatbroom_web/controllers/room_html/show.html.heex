@@ -1,0 +1,34 @@
+<Layouts.app flash={@flash}>
+  <div
+    id="chat"
+    class="flex h-full flex-col bg-white"
+    data-room={@room}
+    data-user={@user}
+    data-token={@token}
+  >
+    <div id="messages" class="flex-1 overflow-y-auto p-2" aria-live="polite"></div>
+
+    <form id="message-form" class="mb-4 bg-[gainsboro] p-2.5">
+      <input
+        id="message-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Type your message and press <enter> to send"
+        class="w-full rounded border border-[#ced4da] bg-white px-3 py-1.5 focus:border-[#80bdff] focus:outline-none focus:ring-4 focus:ring-[#007bff]/25"
+      />
+      <label class="mt-1 inline-flex items-center gap-1">
+        <input id="show-user-list" type="checkbox" /> show user list
+        (<span id="user-count">0</span> connected)
+      </label>
+    </form>
+
+    <div id="user-list" class="bg-[lightsteelblue] px-2.5 py-0.5" hidden>
+      <strong>Connected Users</strong>
+      <div id="users" class="[&>span:not(:last-child)]:after:content-[',_']"></div>
+    </div>
+
+    <p class="py-1 text-center text-[0.8em] text-[#6c757d]">
+      Room: {@room} | User: {@user}
+    </p>
+  </div>
+</Layouts.app>
