@@ -1,0 +1,44 @@
+# Kamal 2 deploy configuration: https://kamal-deploy.org
+#
+# GitHub Actions builds and pushes the image for each commit on main, so
+# deploy a commit only after its CI run has passed:
+#
+#     kamal deploy --skip-push
+#
+# The image tag is the full git SHA of HEAD, so deploy from a clean checkout
+# of the commit that CI built.
+#
+# The server's host name comes from KAMAL_SERVER_HOST, like the secrets, so
+# that this file does not name the server.
+service: chatbroom
+image: geolessel/chatbroom
+
+servers:
+  web:
+    - <%= ENV.fetch("KAMAL_SERVER_HOST") %>
+
+ssh:
+  user: deploy
+
+proxy:
+  ssl: true
+  hosts:
+    - chatbroom.com
+    - www.chatbroom.com
+  app_port: 4000
+  healthcheck:
+    path: /up
+
+registry:
+  username: geolessel
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+env:
+  clear:
+    PHX_HOST: chatbroom.com
+  secret:
+    - SECRET_KEY_BASE
