@@ -64,9 +64,11 @@ mix test         # or `mix precommit` to also check warnings and formatting
 
 ## History
 
-This is a rewrite of a 2018 Phoenix 1.3 app whose chat UI was a React
-component. The rewrite keeps the same behaviour and look on current
-Elixir and Phoenix.
+Chatbroom first ran in 2018 as a Phoenix 1.3 app with a React chat UI.
+This repository is an update of that eight-year-old codebase: the same
+behaviour and look, rewritten on current Elixir and Phoenix. It is also
+the first time the code has been public; the original repository was
+private.
 
 ## License
 
